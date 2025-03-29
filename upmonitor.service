@@ -1,0 +1,19 @@
+[Unit]
+Description=My uptime monitor
+After=network.target
+
+[Service]
+Type=simple
+PIDFile=/var/run/${SERVICE_USER}/${SERVICE_USER}.pid
+User=${SERVICE_USER}
+WorkingDirectory=/var/${SERVICE_USER}
+EnvironmentFile=/var/${SERVICE_USER}/.env
+ExecStart=/bin/bash /var/${SERVICE_USER}/check.sh
+Restart=always
+RestartSec=60
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=${SERVICE_USER}
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,4 @@
+https://muratgozel.com.tr
+
+# use http if curl gives an error due to not recognized ca cert
+http://muratgozel.com.tr
