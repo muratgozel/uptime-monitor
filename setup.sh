@@ -33,4 +33,6 @@ sudo systemctl daemon-reload
 sudo systemctl enable "$SERVICE_USER"
 sudo systemctl start "$SERVICE_USER"
 
-rm ./.env
+if [ -f ./.env ]; then
+    rm ./.env
+fi
