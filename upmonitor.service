@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-PIDFile=/var/run/${SERVICE_USER}/${SERVICE_USER}.pid
+PIDFile=/run/${SERVICE_USER}/${SERVICE_USER}.pid
 User=${SERVICE_USER}
 WorkingDirectory=/var/${SERVICE_USER}
 EnvironmentFile=/var/${SERVICE_USER}/.env

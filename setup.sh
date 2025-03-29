@@ -13,8 +13,14 @@ sudo mkdir -p /var/"$SERVICE_USER"
 
 id -u "$SERVICE_USER" >/dev/null 2>&1 || sudo useradd --home "/var/$SERVICE_USER" --shell /bin/bash --user-group "$SERVICE_USER"
 
-sudo cp ./.env /var/"$SERVICE_USER"/.env
-sudo cp ./list.txt /var/"$SERVICE_USER"/list.txt
+if [ ! -f /var/"$SERVICE_USER"/.env ]; then
+    sudo cp ./.env /var/"$SERVICE_USER"/.env
+fi
+
+if [ ! -f /var/"$SERVICE_USER"/list.txt ]; then
+    sudo cp ./.env /var/"$SERVICE_USER"/list.txt
+fi
+
 sudo cp ./check.sh /var/"$SERVICE_USER"/check.sh
 
 sudo chown "$SERVICE_USER":"$SERVICE_USER" /var/"$SERVICE_USER"
