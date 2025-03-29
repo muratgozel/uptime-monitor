@@ -25,7 +25,8 @@ sudo cp ./check.sh /var/"$SERVICE_USER"/check.sh
 
 sudo chown "$SERVICE_USER":"$SERVICE_USER" /var/"$SERVICE_USER"
 sudo chown -R "$SERVICE_USER":"$SERVICE_USER" /var/"$SERVICE_USER"/*
-sudo chmod 400 /var/"$SERVICE_USER"/list.txt
+sudo chmod 600 /var/"$SERVICE_USER"/.env
+sudo chmod 600 /var/"$SERVICE_USER"/list.txt
 sudo chmod 770 /var/"$SERVICE_USER"/check.sh
 
 sudo cat ./"$SERVICE_USER".service | envsubst | sudo tee /etc/systemd/system/"$SERVICE_USER".service > /dev/null
