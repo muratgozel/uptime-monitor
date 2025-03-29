@@ -36,6 +36,37 @@ notify() {
     debounce 3600 _notify_helper "$url" "$status_code"
 }
 
+# Send Email via Postmark
+send_postmark_email() {
+    local url="$1"
+    local status_code="$2"
+
+    # Ensure required variables are set
+    if [[ -z "$POSTMARK_API_TOKEN" ]] || [[ -z "$NOTIFICATION_EMAIL_RECIPIENTS" ]]; then
+        echo "Postmark API token or recipients not configured" >&2
+        return 1
+    fi
+
+    local payload=$(jq -n \
+        --arg from "$POSTMARK_SENDER" \
+        --arg to "$NOTIFICATION_EMAIL_RECIPIENTS" \
+        --arg subject "Service Down Alert" \
+        --arg textBody "URL $url is DOWN. Status code: $status_code" \
+        '{
+            "From": $from,
+            "To": $to,
+            "Subject": $subject,
+            "TextBody": $textBody,
+            "MessageStream": "outbound"
+        }')
+
+    curl -X POST "https://api.postmarkapp.com/email" \
+        -H "Accept: application/json" \
+        -H "Content-Type: application/json" \
+        -H "X-Postmark-Server-Token: $POSTMARK_API_TOKEN" \
+        -d "$payload"
+}
+
 _notify_helper() {
     local url="$1"
     local status_code="$2"
@@ -44,7 +75,7 @@ _notify_helper() {
     echo "ALERT: $url is DOWN! Status code: $status_code"
 
     # Send email
-    # echo "URL $url is down" | mail -s "Service Down Alert" your-email@example.com
+    send_postmark_email "$url" "$status_code"
 
     # Log to a file
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $url is DOWN. Status: $status_code" >> /tmp/url_health_check.log
