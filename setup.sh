@@ -18,7 +18,7 @@ sudo cp ./list.txt /var/"$SERVICE_USER"/list.txt
 sudo cp ./check.sh /var/"$SERVICE_USER"/check.sh
 
 sudo chown "$SERVICE_USER":"$SERVICE_USER" /var/"$SERVICE_USER"
-sudo chown -R "$SERVICE_USER":"$SERVICE_USER" /var/"$SERVICE_USER"/**/*
+sudo chown -R "$SERVICE_USER":"$SERVICE_USER" /var/"$SERVICE_USER"/*
 sudo chmod 400 /var/"$SERVICE_USER"/list.txt
 sudo chmod 770 /var/"$SERVICE_USER"/check.sh
 
