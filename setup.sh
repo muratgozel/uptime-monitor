@@ -19,12 +19,12 @@ sudo cp ./check.sh /var/"$SERVICE_USER"/check.sh
 
 sudo chown "$SERVICE_USER":"$SERVICE_USER" /var/"$SERVICE_USER"
 sudo chown -R "$SERVICE_USER":"$SERVICE_USER" /var/"$SERVICE_USER"/**/*
-sudo chmod 400 /etc/"$SERVICE_USER"/list.txt
-sudo chmod 770 /etc/"$SERVICE_USER"/check.sh
+sudo chmod 400 /var/"$SERVICE_USER"/list.txt
+sudo chmod 770 /var/"$SERVICE_USER"/check.sh
 
-sudo cat ./etc/systemd/system/"$SERVICE_USER".service | envsubst | sudo tee /etc/systemd/system/"$SERVICE_USER".service > /dev/null
+sudo cat ./"$SERVICE_USER".service | envsubst | sudo tee /etc/systemd/system/"$SERVICE_USER".service > /dev/null
 sudo systemctl daemon-reload
-sudo service "$SERVICE_USER" enable
-sudo service "$SERVICE_USER" start
+sudo systemctl enable "$SERVICE_USER"
+sudo systemctl start "$SERVICE_USER"
 
 rm ./.env
