@@ -4,16 +4,16 @@ set -e
 
 export SERVICE_USER=upmonitor
 
-if [ ! -f ./.env ]; then
-    echo "ERROR: No .env file." >&2
-    exit 1
-fi
-
 sudo mkdir -p /var/"$SERVICE_USER"
 
 id -u "$SERVICE_USER" >/dev/null 2>&1 || sudo useradd --home "/var/$SERVICE_USER" --shell /bin/bash --user-group "$SERVICE_USER"
 
 if [ ! -f /var/"$SERVICE_USER"/.env ]; then
+    if [ ! -f ./.env ]; then
+        echo "ERROR: No .env file." >&2
+        exit 1
+    fi
+
     sudo cp ./.env /var/"$SERVICE_USER"/.env
 fi
 
